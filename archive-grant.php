@@ -379,6 +379,73 @@ $all_prefectures = get_terms([
     .sm-stat-card:hover {
 
     
+    /* ===== SIMPLE SEARCH ===== */
+    .sm-search-wrapper {
+        max-width: 600px;
+        margin: 0 auto 0;
+    }
+    
+    .sm-search-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 50px;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        transition: var(--transition-normal);
+    }
+    
+    .sm-search-container:focus-within {
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+        border-color: rgba(102, 126, 234, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .sm-search-icon {
+        color: var(--primary-blue);
+        font-size: 1.125rem;
+        margin-right: 1rem;
+    }
+    
+    .sm-search-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        font-size: 1rem;
+        color: var(--black);
+        outline: none;
+        font-weight: 500;
+    }
+    
+    .sm-search-input::placeholder {
+        color: var(--text-gray);
+        font-weight: 400;
+    }
+    
+    .sm-search-clear {
+        width: 2rem;
+        height: 2rem;
+        border: none;
+        background: rgba(102, 126, 234, 0.1);
+        color: var(--primary-blue);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition-fast);
+        margin-left: 0.75rem;
+    }
+    
+    .sm-search-clear:hover {
+        background: var(--primary-blue);
+        color: white;
+        transform: scale(1.1);
+    }
+    
     /* ===== QUICK FILTERS - Modern Pill Style ===== */
         font-size: 1rem;
         font-weight: 500;
@@ -1144,6 +1211,17 @@ $all_prefectures = get_terms([
     
     /* ===== ENHANCED MOBILE RESPONSIVENESS ===== */
     @media (max-width: 768px) {
+        .sm-search-wrapper {
+            margin-bottom: 2rem;
+        }
+        
+        .sm-search-container {
+            padding: 0.875rem 1.25rem;
+        }
+        
+        .sm-search-input {
+            font-size: 1rem;
+        }
         .sm-hero {
             padding: 4rem 0 3rem;
             min-height: 50vh;
@@ -1197,6 +1275,15 @@ $all_prefectures = get_terms([
             font-size: 0.8125rem;
         }
         
+        .sm-search-container {
+            padding: 0.75rem 1rem;
+        }
+        
+        .sm-search-icon {
+            font-size: 1rem;
+            margin-right: 0.75rem;
+        }
+        
         .sm-quick-filters {
             flex-direction: column;
             align-items: stretch;
@@ -1241,6 +1328,23 @@ $all_prefectures = get_terms([
                 ?>
             </p>
             
+            <!-- Simple Search -->
+            <div class="sm-search-wrapper">
+                <div class="sm-search-container">
+                    <i class="fas fa-search sm-search-icon"></i>
+                    <input type="text" 
+                           id="sm-search-input" 
+                           class="sm-search-input" 
+                           placeholder="助成金名、キーワードで検索..." 
+                           value="<?php echo esc_attr($search_params['search']); ?>"
+                           autocomplete="off">
+                    <button id="sm-search-clear" 
+                            class="sm-search-clear" 
+                            <?php echo empty($search_params['search']) ? 'style="display:none"' : ''; ?>>
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -1602,7 +1706,7 @@ $all_prefectures = get_terms([
      */
     function cacheElements() {
         const ids = [
-
+            'sm-search-input', 'sm-search-clear',
             'sm-sort-select', 'sm-filter-toggle', 'sm-filter-sidebar',
             'sm-filter-close', 'sm-grid-view', 'sm-list-view',
             'sm-reset-search', 'sm-results-count', 'sm-loading',
@@ -1624,9 +1728,10 @@ $all_prefectures = get_terms([
     function bindEvents() {
         // Search
 
-        
-        if (elements.sm_search_submit) {
-            elements.sm_search_submit.addEventListener('click', handleSearchSubmit);
+        // Search
+        if (elements.sm_search_input) {
+            elements.sm_search_input.addEventListener('input', handleSearchInput);
+            elements.sm_search_input.addEventListener('keypress', handleSearchKeypress);
         }
         
         if (elements.sm_search_clear) {
@@ -1687,6 +1792,39 @@ $all_prefectures = get_terms([
     }
     
 
+    
+    /**
+     * Handle search input
+     */
+    function handleSearchInput(e) {
+        state.filters.search = e.target.value;
+        elements.sm_search_clear.style.display = e.target.value ? 'block' : 'none';
+        
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+            loadGrants();
+        }, config.searchDelay);
+    }
+    
+    /**
+     * Handle search keypress
+     */
+    function handleSearchKeypress(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            loadGrants();
+        }
+    }
+    
+    /**
+     * Handle search clear
+     */
+    function handleSearchClear() {
+        elements.sm_search_input.value = '';
+        elements.sm_search_clear.style.display = 'none';
+        state.filters.search = '';
+        loadGrants();
+    }
     
     /**
      * Handle sort change
@@ -1822,6 +1960,14 @@ $all_prefectures = get_terms([
         
         elements.quickFilters.forEach(f => f.classList.remove('active'));
         document.querySelector('.sm-filter-pill[data-filter="all"]')?.classList.add('active');
+        
+        // Clear search
+        if (elements.sm_search_input) {
+            elements.sm_search_input.value = '';
+        }
+        if (elements.sm_search_clear) {
+            elements.sm_search_clear.style.display = 'none';
+        }
         
         state.currentPage = 1;
         updateFilterCount();

@@ -161,15 +161,19 @@ static $assets_loaded = false;
 <style>
 /* Grant Insight - Site Match Design System */
 :root {
-    /* サイトマッチング配色（既存サイトに合わせた色調） */
-    --sm-primary-blue: #4a90e2;
-    --sm-secondary-blue: #357abd;
-    --sm-light-blue: #e8f4fd;
-    --sm-accent-blue: #2c5aa0;
+    /* Modern Design System - Matching Archive Layout */
+    --sm-primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --sm-secondary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    --sm-accent-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+    
+    --sm-primary-blue: #667eea;
+    --sm-secondary-blue: #4f46e5;
+    --sm-accent-blue: #06b6d4;
+    --sm-light-blue: #f0f7ff;
     --sm-lavender: #f5f3ff;
     --sm-light-lavender: #faf8ff;
     
-    /* ニュートラルカラー */
+    /* Enhanced Neutral Colors */
     --sm-white: #ffffff;
     --sm-light-gray: #f8f9fa;
     --sm-medium-gray: #e9ecef;
@@ -235,9 +239,9 @@ static $assets_loaded = false;
 }
 
 .grant-view-card .grant-card-unified:hover {
-    transform: translateY(-8px) scale(1.01);
-    box-shadow: var(--sm-shadow-2xl);
-    border-color: var(--sm-primary-blue);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(102, 126, 234, 0.4);
+    border: 2px solid rgba(102, 126, 234, 0.3);
 }
 
 /* ============================================
@@ -260,9 +264,9 @@ static $assets_loaded = false;
 }
 
 .grant-view-list .grant-card-unified:hover {
-    box-shadow: var(--sm-shadow-xl);
-    transform: translateX(6px);
-    border-color: var(--sm-primary-blue);
+    box-shadow: 0 20px 40px -8px rgba(102, 126, 234, 0.3);
+    transform: translateX(8px) translateY(-2px);
+    border: 2px solid rgba(102, 126, 234, 0.25);
 }
 
 .grant-view-list .grant-status-header {
@@ -273,7 +277,7 @@ static $assets_loaded = false;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--sm-gradient-primary);
+    background: var(--sm-primary-gradient);
 }
 
 .grant-view-list .grant-card-content {
@@ -401,7 +405,7 @@ static $assets_loaded = false;
 .grant-status-header {
     position: relative;
     height: 60px;
-    background: var(--sm-gradient-primary);
+    background: var(--sm-primary-gradient);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -477,7 +481,7 @@ static $assets_loaded = false;
     align-items: center;
     gap: 6px;
     padding: 6px 14px;
-    background: var(--sm-gradient-primary);
+    background: var(--sm-primary-gradient);
     color: var(--sm-white);
     border-radius: var(--sm-radius-xl);
     font-size: 12px;
@@ -618,7 +622,7 @@ static $assets_loaded = false;
 }
 
 .grant-info-item--amount .grant-info-icon {
-    background: var(--sm-gradient-primary);
+    background: var(--sm-primary-gradient);
     color: var(--sm-white);
 }
 
@@ -685,19 +689,20 @@ static $assets_loaded = false;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 12px 20px;
-    border: none;
-    border-radius: var(--sm-radius-md);
-    font-size: 14px;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--sm-transition-normal);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
     white-space: nowrap;
     position: relative;
     overflow: hidden;
     z-index: 20;
+    backdrop-filter: blur(10px);
 }
 
 .grant-btn::before {
@@ -719,50 +724,53 @@ static $assets_loaded = false;
     height: 200px;
 }
 
-/* 詳細ボタン（サイトテーマ適用） */
+/* 詳細ボタン（モダンスタイル） */
 .grant-btn--primary {
-    background: var(--sm-gradient-primary);
+    background: var(--sm-primary-gradient);
     color: var(--sm-white);
-    box-shadow: var(--sm-shadow-md);
-    border: 2px solid transparent;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .grant-btn--primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--sm-shadow-lg);
-    background: var(--sm-gradient-accent);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #4f46e5 0%, #667eea 100%);
 }
 
 .grant-btn--secondary {
-    background: var(--sm-white);
+    background: rgba(102, 126, 234, 0.1);
     color: var(--sm-primary-blue);
-    border: 2px solid var(--sm-primary-blue);
+    border: 2px solid rgba(102, 126, 234, 0.3);
     box-shadow: var(--sm-shadow-sm);
 }
 
 .grant-btn--secondary:hover {
-    background: var(--sm-light-blue);
-    border-color: var(--sm-accent-blue);
-    color: var(--sm-accent-blue);
-    transform: translateY(-2px);
+    background: var(--sm-primary-gradient);
+    color: var(--sm-white);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    border-color: rgba(102, 126, 234, 0.5);
 }
 
 .favorite-btn {
-    width: 48px;
-    height: 48px;
+    width: 3rem;
+    height: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--sm-white);
-    border: 2px solid var(--sm-border-gray);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(102, 126, 234, 0.2);
     border-radius: 50%;
-    color: var(--sm-text-gray);
+    color: var(--sm-primary-blue);
     cursor: pointer;
-    transition: var(--sm-transition-normal);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
     position: relative;
-    box-shadow: var(--sm-shadow-sm);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
     z-index: 20;
+    font-size: 1.125rem;
 }
 
 .favorite-btn::after {
@@ -777,14 +785,15 @@ static $assets_loaded = false;
 }
 
 .favorite-btn:hover {
-    background: var(--sm-light-blue);
-    border-color: var(--sm-primary-blue);
-    color: var(--sm-primary-blue);
-    transform: scale(1.1);
+    background: var(--sm-primary-gradient);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 .favorite-btn.favorited {
-    background: var(--sm-gradient-primary);
+    background: var(--sm-primary-gradient);
     border-color: var(--sm-primary-blue);
     color: var(--sm-white);
     animation: favorite-bounce 0.4s ease;
@@ -869,7 +878,7 @@ static $assets_loaded = false;
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--sm-gradient-primary);
+    background: var(--sm-primary-gradient);
     animation: gradient-shift 3s ease infinite;
     z-index: 10;
 }
@@ -1029,7 +1038,7 @@ static $assets_loaded = false;
     position: absolute;
     top: 80px;
     right: -35px;
-    background: var(--sm-gradient-primary);
+    background: var(--sm-primary-gradient);
     color: var(--sm-white);
     padding: 6px 45px;
     font-size: 12px;
@@ -1085,7 +1094,7 @@ static $assets_loaded = false;
 
 .grant-success-fill {
     height: 100%;
-    background: var(--sm-gradient-primary);
+    background: var(--sm-primary-gradient);
     border-radius: 3px;
     transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
