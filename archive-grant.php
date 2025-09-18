@@ -167,34 +167,39 @@ $all_prefectures = get_terms([
     
     <!-- Critical CSS -->
     <style>
-    /* ===== Site Matching Design System ===== */
+    /* ===== Modern Design System - Matching Header Style ===== */
     :root {
-        /* Color Palette - Matching Site Design */
-        --primary-blue: #4a90e2;
-        --secondary-blue: #357abd;
-        --light-blue: #e8f4fd;
-        --accent-blue: #2c5aa0;
+        /* Primary Gradient Colors - Matching Header */
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        --accent-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+        
+        /* Core Colors */
+        --primary-blue: #667eea;
+        --secondary-blue: #4f46e5;
+        --light-blue: #f0f7ff;
+        --accent-blue: #06b6d4;
         --lavender: #f5f3ff;
         --light-lavender: #faf8ff;
         
-        /* Neutral Colors */
+        /* Enhanced Neutral Colors */
         --white: #ffffff;
-        --light-gray: #f8f9fa;
-        --medium-gray: #e9ecef;
-        --border-gray: #dee2e6;
-        --text-gray: #6c757d;
-        --dark-gray: #495057;
-        --black: #212529;
+        --light-gray: #f8fafc;
+        --medium-gray: #e2e8f0;
+        --border-gray: #cbd5e1;
+        --text-gray: #64748b;
+        --dark-gray: #475569;
+        --black: #0f0f23;
         
         /* Semantic Colors */
-        --success: #28a745;
-        --warning: #ffc107;
-        --danger: #dc3545;
-        --info: --primary-blue;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --info: #3b82f6;
         
-        /* Typography */
-        --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        --font-japanese: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+        /* Modern Typography */
+        --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        --font-japanese: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic Medium', 'Meiryo', sans-serif;
         
         /* Spacing */
         --spacing-xs: 0.25rem;
@@ -262,15 +267,29 @@ $all_prefectures = get_terms([
         }
     }
     
-    /* ===== HERO SECTION - Site Matching ===== */
+    /* ===== MODERN HERO SECTION ===== */
     .sm-hero {
-        background: linear-gradient(135deg, var(--light-blue) 0%, var(--lavender) 100%);
-        padding: var(--spacing-4xl) 0 var(--spacing-3xl);
+        background: var(--primary-gradient);
+        padding: 6rem 0 4rem;
         position: relative;
         overflow: hidden;
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
     }
     
     .sm-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.05"><circle cx="30" cy="30" r="2"/></g></svg>');
+        opacity: 0.3;
+    }
+    
+    .sm-hero::after {
         content: '';
         position: absolute;
         top: 0;
@@ -285,130 +304,82 @@ $all_prefectures = get_terms([
         text-align: center;
         position: relative;
         z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
     }
     
     .sm-hero-badge {
         display: inline-flex;
         align-items: center;
-        gap: var(--spacing-sm);
-        padding: var(--spacing-sm) var(--spacing-lg);
-        background: var(--white);
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
         color: var(--primary-blue);
         font-size: 0.875rem;
         font-weight: 600;
-        border-radius: var(--radius-2xl);
-        box-shadow: var(--shadow-md);
-        margin-bottom: var(--spacing-xl);
-        border: 2px solid var(--primary-blue);
+        border-radius: 50px;
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transform: translateY(0);
+        transition: var(--transition-normal);
+    }
+    
+    .sm-hero-badge:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
     }
     
     .sm-hero-title {
-        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-size: clamp(2.5rem, 6vw, 4rem);
         font-weight: 800;
-        line-height: 1.2;
-        margin-bottom: var(--spacing-lg);
-        color: var(--black);
-        text-shadow: 0 2px 4px rgba(255,255,255,0.5);
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        color: white;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        font-family: var(--font-primary);
     }
     
     .sm-hero-title .highlight {
-        color: var(--primary-blue);
-        background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+        background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        text-shadow: none;
     }
     
     .sm-hero-subtitle {
-        font-size: clamp(1rem, 2vw, 1.125rem);
-        color: var(--text-gray);
-        max-width: 600px;
-        margin: 0 auto var(--spacing-2xl);
-        line-height: 1.7;
+        font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 700px;
+        margin: 0 auto 3rem;
+        line-height: 1.6;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        font-weight: 400;
     }
     
-    /* Statistics Cards - Site Style */
-    .sm-stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: var(--spacing-lg);
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    
-    .sm-stat-card {
+    /* ===== FILTER SECTION ===== */
+    .sm-filter-section {
         background: var(--white);
-        padding: var(--spacing-xl);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-lg);
-        text-align: center;
-        border: 1px solid rgba(74, 144, 226, 0.1);
-        transition: var(--transition-normal);
+        padding: 2rem 0;
+        box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.1);
         position: relative;
-        overflow: hidden;
+        z-index: 10;
     }
     
-    .sm-stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+    .sm-filter-card {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: 1.5rem;
+        margin: 0 auto;
+        max-width: 1200px;
     }
     
     .sm-stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-xl);
-    }
+
     
-    .sm-stat-value {
-        display: block;
-        font-size: 2rem;
-        font-weight: 800;
-        color: var(--primary-blue);
-        margin-bottom: var(--spacing-sm);
-    }
-    
-    .sm-stat-label {
-        font-size: 0.875rem;
-        color: var(--text-gray);
-        font-weight: 500;
-    }
-    
-    /* ===== SEARCH SECTION - Modern Card Style ===== */
-    .sm-search-section {
-        padding: var(--spacing-xl) 0;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        backdrop-filter: blur(10px);
-        background: rgba(255, 255, 255, 0.9);
-        border-bottom: 1px solid var(--border-gray);
-    }
-    
-    .sm-search-card {
-        background: var(--white);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-lg);
-        padding: var(--spacing-xl);
-        max-width: 800px;
-        margin: 0 auto;
-        border: 1px solid rgba(74, 144, 226, 0.1);
-    }
-    
-    .sm-search-wrapper {
-        position: relative;
-        margin-bottom: var(--spacing-lg);
-    }
-    
-    .sm-search-input {
-        width: 100%;
-        padding: var(--spacing-lg) var(--spacing-xl);
-        padding-right: 120px;
-        border: 2px solid var(--border-gray);
-        border-radius: var(--radius-lg);
+    /* ===== QUICK FILTERS - Modern Pill Style ===== */
         font-size: 1rem;
         font-weight: 500;
         background: var(--light-gray);
@@ -416,55 +387,67 @@ $all_prefectures = get_terms([
         outline: none;
     }
     
-    .sm-search-input:focus {
-        background: var(--white);
-        border-color: var(--primary-blue);
-        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    .sm-quick-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 0;
     }
     
-    .sm-search-input::placeholder {
-        color: var(--text-gray);
-    }
-    
-    .sm-search-button {
-        position: absolute;
-        right: var(--spacing-xs);
-        top: 50%;
-        transform: translateY(-50%);
-        padding: var(--spacing-md) var(--spacing-lg);
-        background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
-        color: var(--white);
-        border: none;
-        border-radius: var(--radius-md);
+    .sm-filter-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        background: rgba(102, 126, 234, 0.1);
+        color: var(--primary-blue);
+        border: 2px solid transparent;
+        border-radius: 50px;
+        font-size: 0.875rem;
         font-weight: 600;
+        text-decoration: none;
         cursor: pointer;
-        transition: var(--transition-fast);
-        box-shadow: var(--shadow-sm);
+        transition: var(--transition-normal);
+        backdrop-filter: blur(10px);
+        white-space: nowrap;
     }
     
-    .sm-search-button:hover {
-        transform: translateY(-50%) scale(1.05);
-        box-shadow: var(--shadow-md);
+    .sm-filter-pill:hover {
+        background: var(--primary-blue);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
     }
     
-    .sm-search-clear {
-        position: absolute;
-        right: 110px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 32px;
-        height: 32px;
-        border: none;
-        background: transparent;
-        color: var(--text-gray);
-        cursor: pointer;
-        border-radius: 50%;
-        transition: var(--transition-fast);
+    .sm-filter-pill.active {
+        background: var(--primary-gradient);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        transform: translateY(-1px);
     }
     
-    .sm-search-clear:hover {
-        background: var(--medium-gray);
-        color: var(--dark-gray);
+    .sm-filter-pill-icon {
+        font-size: 1rem;
+        line-height: 1;
+    }
+    
+    .sm-filter-pill-count {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        min-width: 1.5rem;
+        text-align: center;
+    }
+    
+    .sm-filter-pill:not(.active) .sm-filter-pill-count {
+        background: var(--primary-blue);
+        color: white;
     }
     
     /* Quick Filters - Pill Design */
@@ -1157,9 +1140,71 @@ $all_prefectures = get_terms([
         .sm-grants-grid {
             grid-template-columns: 1fr;
         }
+    }
+    
+    /* ===== ENHANCED MOBILE RESPONSIVENESS ===== */
+    @media (max-width: 768px) {
+        .sm-hero {
+            padding: 4rem 0 3rem;
+            min-height: 50vh;
+        }
         
-        body {
-            background: var(--white);
+        .sm-hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .sm-hero-subtitle {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+        
+        .sm-filter-section {
+            padding: 1.5rem 0;
+        }
+        
+        .sm-filter-card {
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+        }
+        
+        .sm-quick-filters {
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+        
+        .sm-filter-pill {
+            padding: 0.625rem 1rem;
+            font-size: 0.8125rem;
+        }
+        
+        .sm-container {
+            padding: 0 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .sm-hero {
+            padding: 3rem 0 2rem;
+        }
+        
+        .sm-hero-title {
+            font-size: 2rem;
+        }
+        
+        .sm-hero-badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.8125rem;
+        }
+        
+        .sm-quick-filters {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .sm-filter-pill {
+            justify-content: center;
+            padding: 0.75rem 1rem;
         }
     }
     </style>
@@ -1196,50 +1241,15 @@ $all_prefectures = get_terms([
                 ?>
             </p>
             
-            <!-- Statistics Cards -->
-            <div class="sm-stats">
-                <div class="sm-stat-card">
-                    <span class="sm-stat-value"><?php echo number_format($stats['total_grants']); ?></span>
-                    <span class="sm-stat-label">掲載助成金数</span>
-                </div>
-                <div class="sm-stat-card">
-                    <span class="sm-stat-value"><?php echo number_format($stats['active_grants']); ?></span>
-                    <span class="sm-stat-label">募集中</span>
-                </div>
-                <div class="sm-stat-card">
-                    <span class="sm-stat-value"><?php echo number_format($stats['prefecture_count']); ?></span>
-                    <span class="sm-stat-label">対応地域</span>
-                </div>
-                <div class="sm-stat-card">
-                    <span class="sm-stat-value"><?php echo number_format($stats['avg_success_rate']); ?>%</span>
-                    <span class="sm-stat-label">平均採択率</span>
-                </div>
-            </div>
+
         </div>
     </div>
 </section>
 
-<!-- Search Section -->
-<section class="sm-search-section">
+<!-- Filter Section -->
+<section class="sm-filter-section">
     <div class="sm-container">
-        <div class="sm-search-card">
-            <div class="sm-search-wrapper">
-                <input type="text" 
-                       id="sm-search-input" 
-                       class="sm-search-input" 
-                       placeholder="助成金名、キーワード、実施機関名で検索" 
-                       value="<?php echo esc_attr($search_params['search']); ?>" 
-                       autocomplete="off">
-                <button id="sm-search-clear" 
-                        class="sm-search-clear" 
-                        <?php echo empty($search_params['search']) ? 'style="display:none"' : ''; ?>>
-                    <i class="fas fa-times"></i>
-                </button>
-                <button id="sm-search-submit" class="sm-search-button">
-                    <i class="fas fa-search"></i> 検索
-                </button>
-            </div>
-            
+        <div class="sm-filter-card">
             <!-- Quick Filters -->
             <div class="sm-quick-filters">
                 <button class="sm-filter-pill <?php echo empty($search_params['status']) && empty($search_params['is_featured']) ? 'active' : ''; ?>" data-filter="all">
@@ -1592,7 +1602,7 @@ $all_prefectures = get_terms([
      */
     function cacheElements() {
         const ids = [
-            'sm-search-input', 'sm-search-submit', 'sm-search-clear',
+
             'sm-sort-select', 'sm-filter-toggle', 'sm-filter-sidebar',
             'sm-filter-close', 'sm-grid-view', 'sm-list-view',
             'sm-reset-search', 'sm-results-count', 'sm-loading',
@@ -1613,10 +1623,7 @@ $all_prefectures = get_terms([
      */
     function bindEvents() {
         // Search
-        if (elements.sm_search_input) {
-            elements.sm_search_input.addEventListener('input', handleSearchInput);
-            elements.sm_search_input.addEventListener('keypress', handleSearchKeypress);
-        }
+
         
         if (elements.sm_search_submit) {
             elements.sm_search_submit.addEventListener('click', handleSearchSubmit);
@@ -1679,45 +1686,7 @@ $all_prefectures = get_terms([
         });
     }
     
-    /**
-     * Handle search input
-     */
-    function handleSearchInput(e) {
-        state.filters.search = e.target.value;
-        elements.sm_search_clear.style.display = e.target.value ? 'block' : 'none';
-        
-        clearTimeout(searchTimer);
-        searchTimer = setTimeout(() => {
-            loadGrants();
-        }, config.searchDelay);
-    }
-    
-    /**
-     * Handle search keypress
-     */
-    function handleSearchKeypress(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            loadGrants();
-        }
-    }
-    
-    /**
-     * Handle search submit
-     */
-    function handleSearchSubmit() {
-        loadGrants();
-    }
-    
-    /**
-     * Handle search clear
-     */
-    function handleSearchClear() {
-        elements.sm_search_input.value = '';
-        elements.sm_search_clear.style.display = 'none';
-        state.filters.search = '';
-        loadGrants();
-    }
+
     
     /**
      * Handle sort change
@@ -1845,7 +1814,7 @@ $all_prefectures = get_terms([
     function resetAllFilters() {
         resetFiltersState();
         
-        elements.sm_search_input.value = '';
+
         elements.sm_search_clear.style.display = 'none';
         
         elements.filterCheckboxes.forEach(cb => cb.checked = false);
@@ -1903,7 +1872,7 @@ $all_prefectures = get_terms([
     function handleKeyboardShortcuts(e) {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
-            elements.sm_search_input?.focus();
+
         }
         
         if (e.key === 'Escape') {
