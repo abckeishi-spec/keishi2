@@ -391,57 +391,58 @@ $all_prefectures = get_terms([
     
     .sm-search-input {
         width: 100%;
-        padding: 1rem 1.25rem 1rem 3rem;
-        border: 2px solid #e5e7eb;
-        border-radius: 1rem;
+        padding: var(--spacing-lg) 1.25rem var(--spacing-lg) 3rem;
+        border: 2px solid var(--medium-gray);
+        border-radius: var(--radius-lg);
         font-size: 1rem;
-        transition: all 0.3s ease;
-        background: white;
+        transition: var(--transition-normal);
+        background: var(--white);
         font-weight: 500;
+        font-family: var(--font-primary);
     }
     
     .sm-search-input:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: var(--primary-blue);
         box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         transform: translateY(-2px);
     }
     
     .sm-search-input::placeholder {
-        color: #9ca3af;
+        color: var(--text-light);
         font-weight: 400;
     }
     
     .sm-search-icon {
         position: absolute;
-        left: 1rem;
+        left: var(--spacing-lg);
         top: 50%;
         transform: translateY(-50%);
-        color: #9ca3af;
+        color: var(--text-light);
         font-size: 1.125rem;
     }
     
     .sm-search-clear {
         position: absolute;
-        right: 1rem;
+        right: var(--spacing-lg);
         top: 50%;
         transform: translateY(-50%);
         width: 2rem;
         height: 2rem;
         border: none;
-        background: #f3f4f6;
-        color: #6b7280;
+        background: var(--medium-gray);
+        color: var(--text-light);
         border-radius: 50%;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.3s ease;
+        transition: var(--transition-normal);
     }
     
     .sm-search-clear:hover {
-        background: #ef4444;
-        color: white;
+        background: var(--danger);
+        color: var(--white);
         transform: translateY(-50%) scale(1.1);
     }
     
