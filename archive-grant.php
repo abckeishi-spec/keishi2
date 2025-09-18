@@ -379,45 +379,60 @@ $all_prefectures = get_terms([
     .sm-stat-card:hover {
 
     
-    /* ===== SIMPLE SEARCH ===== */
-    .sm-search-wrapper {
-        max-width: 600px;
-        margin: 0 auto 0;
+    /* ===== SEARCH SECTION - Matching Header Style ===== */
+    .sm-search-section {
+        background: var(--white);
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--medium-gray);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.98);
     }
     
-    .sm-search-container {
-        position: relative;
+    .sm-search-card {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: 2rem;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--medium-gray);
+    }
+    
+    .sm-search-form {
         display: flex;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 50px;
-        padding: 1rem 1.5rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        transition: var(--transition-normal);
+        flex-direction: column;
+        gap: 1rem;
     }
     
-    .sm-search-container:focus-within {
-        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
-        border-color: rgba(102, 126, 234, 0.3);
-        transform: translateY(-2px);
+    @media (min-width: 768px) {
+        .sm-search-form {
+            flex-direction: row;
+            align-items: end;
+        }
     }
     
-    .sm-search-icon {
-        color: var(--primary-blue);
-        font-size: 1.125rem;
-        margin-right: 1rem;
+    .sm-search-input-wrapper {
+        flex: 1;
+        position: relative;
     }
     
     .sm-search-input {
-        flex: 1;
-        border: none;
-        background: transparent;
+        width: 100%;
+        padding: 1rem 1.25rem 1rem 3rem;
+        border: 2px solid var(--medium-gray);
+        border-radius: 1rem;
         font-size: 1rem;
-        color: var(--black);
-        outline: none;
+        transition: var(--transition-normal);
+        background: var(--white);
         font-weight: 500;
+    }
+    
+    .sm-search-input:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
     }
     
     .sm-search-input::placeholder {
@@ -425,25 +440,139 @@ $all_prefectures = get_terms([
         font-weight: 400;
     }
     
+    .sm-search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-gray);
+        font-size: 1.125rem;
+    }
+    
     .sm-search-clear {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
         width: 2rem;
         height: 2rem;
         border: none;
-        background: rgba(102, 126, 234, 0.1);
-        color: var(--primary-blue);
+        background: var(--medium-gray);
+        color: var(--text-gray);
         border-radius: 50%;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: var(--transition-fast);
-        margin-left: 0.75rem;
     }
     
     .sm-search-clear:hover {
-        background: var(--primary-blue);
+        background: var(--danger-red);
         color: white;
-        transform: scale(1.1);
+    }
+    
+    .sm-search-filters {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+    
+    .sm-search-select {
+        padding: 1rem 1.25rem;
+        border: 2px solid var(--medium-gray);
+        border-radius: 1rem;
+        background: var(--white);
+        font-size: 0.875rem;
+        font-weight: 500;
+        min-width: 140px;
+        transition: var(--transition-normal);
+        cursor: pointer;
+    }
+    
+    .sm-search-select:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .sm-advanced-toggle {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        padding: 1rem 1.5rem;
+        border-radius: 1rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: var(--transition-normal);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .sm-advanced-toggle:hover {
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Advanced Filters */
+    .sm-advanced-filters {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--medium-gray);
+        animation: slideDown 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .sm-advanced-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    
+    .sm-filter-group-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-blue);
+    }
+    
+    .sm-filter-option {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 0;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        font-weight: 500;
+    }
+    
+    .sm-filter-option:hover {
+        color: var(--primary-blue);
+    }
+    
+    .sm-filter-radio,
+    .sm-filter-checkbox {
+        accent-color: var(--primary-blue);
+        width: 1.25rem;
+        height: 1.25rem;
     }
     
     /* ===== QUICK FILTERS - Modern Pill Style ===== */
@@ -1211,16 +1340,26 @@ $all_prefectures = get_terms([
     
     /* ===== ENHANCED MOBILE RESPONSIVENESS ===== */
     @media (max-width: 768px) {
-        .sm-search-wrapper {
-            margin-bottom: 2rem;
+        .sm-search-section {
+            padding: 1.5rem 0;
         }
         
-        .sm-search-container {
-            padding: 0.875rem 1.25rem;
+        .sm-search-card {
+            padding: 1.5rem;
         }
         
-        .sm-search-input {
-            font-size: 1rem;
+        .sm-search-filters {
+            flex-direction: column;
+        }
+        
+        .sm-search-select,
+        .sm-advanced-toggle {
+            width: 100%;
+        }
+        
+        .sm-advanced-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
         }
         .sm-hero {
             padding: 4rem 0 3rem;
@@ -1275,13 +1414,24 @@ $all_prefectures = get_terms([
             font-size: 0.8125rem;
         }
         
-        .sm-search-container {
-            padding: 0.75rem 1rem;
+        .sm-search-card {
+            padding: 1rem;
+        }
+        
+        .sm-search-input {
+            padding: 0.875rem 1rem 0.875rem 2.5rem;
+            font-size: 0.9375rem;
         }
         
         .sm-search-icon {
+            left: 0.75rem;
             font-size: 1rem;
-            margin-right: 0.75rem;
+        }
+        
+        .sm-search-clear {
+            right: 0.75rem;
+            width: 1.75rem;
+            height: 1.75rem;
         }
         
         .sm-quick-filters {
@@ -1328,24 +1478,106 @@ $all_prefectures = get_terms([
                 ?>
             </p>
             
-            <!-- Simple Search -->
-            <div class="sm-search-wrapper">
-                <div class="sm-search-container">
-                    <i class="fas fa-search sm-search-icon"></i>
+
+
+        </div>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section class="sm-search-section">
+    <div class="sm-container">
+        <div class="sm-search-card">
+            <!-- Search Form -->
+            <form class="sm-search-form">
+                <div class="sm-search-input-wrapper">
                     <input type="text" 
                            id="sm-search-input" 
-                           class="sm-search-input" 
-                           placeholder="助成金名、キーワードで検索..." 
+                           name="search" 
+                           placeholder="助成金名、実施組織名、対象事業者などで検索..." 
+                           class="sm-search-input"
                            value="<?php echo esc_attr($search_params['search']); ?>"
                            autocomplete="off">
-                    <button id="sm-search-clear" 
-                            class="sm-search-clear" 
-                            <?php echo empty($search_params['search']) ? 'style="display:none"' : ''; ?>>
+                    <i class="fas fa-search sm-search-icon"></i>
+                    <button type="button" id="sm-search-clear" class="sm-search-clear" <?php echo empty($search_params['search']) ? 'style="display:none"' : ''; ?>>
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
+                
+                <div class="sm-search-filters">
+                    <select name="category" class="sm-search-select" aria-label="カテゴリーを選択">
+                        <option value="">すべてのカテゴリー</option>
+                        <?php
+                        if (!empty($all_categories) && !is_wp_error($all_categories)) {
+                            foreach ($all_categories as $category) {
+                                $selected = in_array($category->slug, explode(',', $search_params['category'])) ? 'selected' : '';
+                                echo '<option value="' . esc_attr($category->slug) . '" ' . $selected . '>';
+                                echo esc_html($category->name) . ' (' . $category->count . ')';
+                                echo '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                    
+                    <select name="prefecture" class="sm-search-select" aria-label="都道府県を選択">
+                        <option value="">全国対象</option>
+                        <?php
+                        if (!empty($all_prefectures) && !is_wp_error($all_prefectures)) {
+                            foreach ($all_prefectures as $prefecture) {
+                                $selected = in_array($prefecture->slug, explode(',', $search_params['prefecture'])) ? 'selected' : '';
+                                echo '<option value="' . esc_attr($prefecture->slug) . '" ' . $selected . '>';
+                                echo esc_html($prefecture->name) . ' (' . $prefecture->count . ')';
+                                echo '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                    
+                    <button type="button" id="sm-advanced-toggle" class="sm-advanced-toggle">
+                        <i class="fas fa-sliders-h"></i>
+                        詳細フィルター
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Advanced Filters (Initially Hidden) -->
+            <div id="sm-advanced-filters" class="sm-advanced-filters" style="display: none;">
+                <div class="sm-advanced-grid">
+                    <!-- Amount Filters -->
+                    <div class="sm-filter-group">
+                        <h4 class="sm-filter-group-title">助成金額</h4>
+                        <?php
+                        $amount_ranges = [
+                            '' => 'すべて',
+                            '0-100' => '〜100万円',
+                            '100-500' => '100〜500万円',
+                            '500-1000' => '500〜1000万円',
+                            '1000-3000' => '1000〜3000万円',
+                            '3000+' => '3000万円以上'
+                        ];
+                        foreach ($amount_ranges as $value => $label):
+                        ?>
+                        <label class="sm-filter-option">
+                            <input type="radio" 
+                                   name="amount" 
+                                   value="<?php echo esc_attr($value); ?>" 
+                                   class="sm-filter-radio amount-radio"
+                                   <?php checked($search_params['amount'], $value); ?>>
+                            <span><?php echo esc_html($label); ?></span>
+                        </label>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <!-- Status Filters -->
+                    <div class="sm-filter-group">
+                        <h4 class="sm-filter-group-title">募集状況</h4>
+                        <label class="sm-filter-option">
+                            <input type="checkbox" class="sm-filter-checkbox featured-checkbox" <?php checked($search_params['is_featured'], '1'); ?>>
+                            <span>おすすめ助成金</span>
+                        </label>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -1706,7 +1938,7 @@ $all_prefectures = get_terms([
      */
     function cacheElements() {
         const ids = [
-            'sm-search-input', 'sm-search-clear',
+            'sm-search-input', 'sm-search-clear', 'sm-advanced-toggle', 'sm-advanced-filters',
             'sm-sort-select', 'sm-filter-toggle', 'sm-filter-sidebar',
             'sm-filter-close', 'sm-grid-view', 'sm-list-view',
             'sm-reset-search', 'sm-results-count', 'sm-loading',
@@ -1737,6 +1969,16 @@ $all_prefectures = get_terms([
         if (elements.sm_search_clear) {
             elements.sm_search_clear.addEventListener('click', handleSearchClear);
         }
+        
+        // Advanced filters toggle
+        if (elements.sm_advanced_toggle) {
+            elements.sm_advanced_toggle.addEventListener('click', toggleAdvancedFilters);
+        }
+        
+        // Filter change events for advanced filters
+        document.querySelectorAll('.sm-search-select, .amount-radio, .featured-checkbox').forEach(element => {
+            element.addEventListener('change', handleFilterChange);
+        });
         
         // Sort
         if (elements.sm_sort_select) {
@@ -1824,6 +2066,28 @@ $all_prefectures = get_terms([
         elements.sm_search_clear.style.display = 'none';
         state.filters.search = '';
         loadGrants();
+    }
+    
+    /**
+     * Toggle advanced filters
+     */
+    function toggleAdvancedFilters() {
+        const advancedFilters = elements.sm_advanced_filters;
+        const toggle = elements.sm_advanced_toggle;
+        
+        if (!advancedFilters || !toggle) return;
+        
+        const isVisible = advancedFilters.style.display !== 'none';
+        
+        if (isVisible) {
+            // Hide filters
+            advancedFilters.style.display = 'none';
+            toggle.innerHTML = '<i class="fas fa-sliders-h"></i> 詳細フィルター';
+        } else {
+            // Show filters
+            advancedFilters.style.display = 'block';
+            toggle.innerHTML = '<i class="fas fa-times"></i> 詳細を閉じる';
+        }
     }
     
     /**
