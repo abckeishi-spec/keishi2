@@ -1113,10 +1113,23 @@ $all_prefectures = get_terms([
         transition: var(--transition-fast);
         padding: var(--spacing-sm);
         border-radius: var(--radius-sm);
+        width: 100%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        color: var(--primary-blue);
+        font-weight: 500;
     }
     
     .sm-filter-more-btn:hover {
         background: var(--light-blue);
+        color: var(--secondary-blue);
+    }
+    
+    .sm-filter-more-btn:focus {
+        outline: 2px solid var(--primary-blue);
+        outline-offset: 2px;
     }
     
     .sm-filter-more-item {
@@ -1657,9 +1670,12 @@ $all_prefectures = get_terms([
         // Keyboard shortcuts
         document.addEventListener('keydown', handleKeyboardShortcuts);
         
-        // More filters toggle
-        document.querySelectorAll('.sm-filter-more-btn').forEach(btn => {
-            btn.addEventListener('click', handleMoreFiltersToggle);
+        // More filters toggle (using event delegation)
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('.sm-filter-more-btn');
+            if (btn) {
+                handleMoreFiltersToggle(e);
+            }
         });
     }
     
@@ -2148,31 +2164,42 @@ $all_prefectures = get_terms([
      * Handle more filters toggle
      */
     function handleMoreFiltersToggle(e) {
-        const btn = e.currentTarget;
-        const target = btn.dataset.target;
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const btn = e.target.closest('.sm-filter-more-btn');
+        if (!btn) return;
+        
         const filterGroup = btn.closest('.sm-filter-group');
+        if (!filterGroup) return;
+        
         const moreItems = filterGroup.querySelectorAll('.sm-filter-more-item');
         const showMoreText = btn.querySelector('.show-more-text');
         const showLessText = btn.querySelector('.show-less-text');
         const showMoreIcon = btn.querySelector('.show-more-icon');
         const showLessIcon = btn.querySelector('.show-less-icon');
         
-        const isExpanded = !showMoreText.classList.contains('hidden');
+        // 現在の状態を正しく判定: showMoreTextが見える（hiddenクラスがない）場合は折りたたまれている状態
+        const isCollapsed = showMoreText && !showMoreText.classList.contains('hidden');
         
-        if (isExpanded) {
-            // 展開中 -> 折りたたむ
-            moreItems.forEach(item => item.classList.add('hidden'));
-            showMoreText.classList.remove('hidden');
-            showLessText.classList.add('hidden');
-            showMoreIcon.classList.remove('hidden');
-            showLessIcon.classList.add('hidden');
+        if (isCollapsed) {
+            // 折りたたまれている -> 展開する
+            moreItems.forEach(item => {
+                item.classList.remove('hidden');
+            });
+            if (showMoreText) showMoreText.classList.add('hidden');
+            if (showLessText) showLessText.classList.remove('hidden');
+            if (showMoreIcon) showMoreIcon.classList.add('hidden');
+            if (showLessIcon) showLessIcon.classList.remove('hidden');
         } else {
-            // 折りたたみ中 -> 展開
-            moreItems.forEach(item => item.classList.remove('hidden'));
-            showMoreText.classList.add('hidden');
-            showLessText.classList.remove('hidden');
-            showMoreIcon.classList.add('hidden');
-            showLessIcon.classList.remove('hidden');
+            // 展開されている -> 折りたたむ
+            moreItems.forEach(item => {
+                item.classList.add('hidden');
+            });
+            if (showMoreText) showMoreText.classList.remove('hidden');
+            if (showLessText) showLessText.classList.add('hidden');
+            if (showMoreIcon) showMoreIcon.classList.remove('hidden');
+            if (showLessIcon) showLessIcon.classList.add('hidden');
         }
     }
     
