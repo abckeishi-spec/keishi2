@@ -142,8 +142,8 @@ $all_categories = get_terms([
     'taxonomy' => 'grant_category',
     'hide_empty' => false,
     'orderby' => 'count',
-    'order' => 'DESC',
-    'number' => 20
+    'order' => 'DESC'
+    // 制限を削除してすべてのカテゴリを取得
 ]);
 
 $all_prefectures = get_terms([
@@ -1104,6 +1104,29 @@ $all_prefectures = get_terms([
         outline-offset: 2px;
     }
     
+    /* ===== FILTER MORE BUTTON ===== */
+    .sm-filter-more-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 0.875rem;
+        transition: var(--transition-fast);
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-sm);
+    }
+    
+    .sm-filter-more-btn:hover {
+        background: var(--light-blue);
+    }
+    
+    .sm-filter-more-item {
+        transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+    
+    .sm-filter-more-item.hidden {
+        display: none;
+    }
+    
     /* ===== PRINT STYLES ===== */
     @media print {
         .sm-hero,
@@ -1318,22 +1341,37 @@ $all_prefectures = get_terms([
                             <h4 class="sm-filter-group-title">対象地域</h4>
                             <?php 
                             $prefecture_limit = 10;
-                            $prefectures_to_show = array_slice($all_prefectures, 0, $prefecture_limit);
                             $selected_prefectures = explode(',', $search_params['prefecture']);
-                            foreach ($prefectures_to_show as $prefecture): 
+                            $prefecture_count = count($all_prefectures);
+                            
+                            // 選択されている項目があれば最初から全て表示
+                            $has_selected = !empty(array_filter($selected_prefectures));
+                            $show_all_initially = $has_selected;
+                            
+                            foreach ($all_prefectures as $index => $prefecture): 
+                                $is_selected = in_array($prefecture->slug, $selected_prefectures);
+                                $is_hidden = !$show_all_initially && $index >= $prefecture_limit;
                             ?>
-                            <label class="sm-filter-option">
+                            <label class="sm-filter-option <?php echo $is_hidden ? 'sm-filter-more-item hidden' : ''; ?>">
                                 <input type="checkbox" 
                                        name="prefectures[]" 
                                        value="<?php echo esc_attr($prefecture->slug); ?>" 
                                        class="sm-filter-checkbox prefecture-checkbox"
-                                       <?php checked(in_array($prefecture->slug, $selected_prefectures)); ?>>
+                                       <?php checked($is_selected); ?>>
                                 <span class="sm-filter-label"><?php echo esc_html($prefecture->name); ?></span>
                                 <?php if ($prefecture->count > 0): ?>
                                 <span class="sm-filter-count"><?php echo esc_html($prefecture->count); ?></span>
                                 <?php endif; ?>
                             </label>
                             <?php endforeach; ?>
+                            <?php if ($prefecture_count > $prefecture_limit): ?>
+                            <button type="button" class="sm-filter-more-btn text-sm text-blue-600 hover:text-blue-800 mt-2 flex items-center gap-1" data-target="prefecture">
+                                <span class="show-more-text <?php echo $show_all_initially ? 'hidden' : ''; ?>">さらに表示 (+<?php echo $prefecture_count - $prefecture_limit; ?>)</span>
+                                <span class="show-less-text <?php echo !$show_all_initially ? 'hidden' : ''; ?>">表示を減らす</span>
+                                <i class="fas fa-chevron-down show-more-icon <?php echo $show_all_initially ? 'hidden' : ''; ?>"></i>
+                                <i class="fas fa-chevron-up show-less-icon <?php echo !$show_all_initially ? 'hidden' : ''; ?>"></i>
+                            </button>
+                            <?php endif; ?>
                         </div>
                         <?php endif; ?>
 
@@ -1343,22 +1381,37 @@ $all_prefectures = get_terms([
                             <h4 class="sm-filter-group-title">カテゴリ</h4>
                             <?php 
                             $category_limit = 8;
-                            $categories_to_show = array_slice($all_categories, 0, $category_limit);
                             $selected_categories = explode(',', $search_params['category']);
-                            foreach ($categories_to_show as $category): 
+                            $category_count = count($all_categories);
+                            
+                            // 選択されている項目があれば最初から全て表示
+                            $has_selected_cat = !empty(array_filter($selected_categories));
+                            $show_all_cat_initially = $has_selected_cat;
+                            
+                            foreach ($all_categories as $index => $category): 
+                                $is_selected_cat = in_array($category->slug, $selected_categories);
+                                $is_hidden = !$show_all_cat_initially && $index >= $category_limit;
                             ?>
-                            <label class="sm-filter-option">
+                            <label class="sm-filter-option <?php echo $is_hidden ? 'sm-filter-more-item hidden' : ''; ?>">
                                 <input type="checkbox" 
                                        name="categories[]" 
                                        value="<?php echo esc_attr($category->slug); ?>" 
                                        class="sm-filter-checkbox category-checkbox"
-                                       <?php checked(in_array($category->slug, $selected_categories)); ?>>
+                                       <?php checked($is_selected_cat); ?>>
                                 <span class="sm-filter-label"><?php echo esc_html($category->name); ?></span>
                                 <?php if ($category->count > 0): ?>
                                 <span class="sm-filter-count"><?php echo esc_html($category->count); ?></span>
                                 <?php endif; ?>
                             </label>
                             <?php endforeach; ?>
+                            <?php if ($category_count > $category_limit): ?>
+                            <button type="button" class="sm-filter-more-btn text-sm text-blue-600 hover:text-blue-800 mt-2 flex items-center gap-1" data-target="category">
+                                <span class="show-more-text <?php echo $show_all_cat_initially ? 'hidden' : ''; ?>">さらに表示 (+<?php echo $category_count - $category_limit; ?>)</span>
+                                <span class="show-less-text <?php echo !$show_all_cat_initially ? 'hidden' : ''; ?>">表示を減らす</span>
+                                <i class="fas fa-chevron-down show-more-icon <?php echo $show_all_cat_initially ? 'hidden' : ''; ?>"></i>
+                                <i class="fas fa-chevron-up show-less-icon <?php echo !$show_all_cat_initially ? 'hidden' : ''; ?>"></i>
+                            </button>
+                            <?php endif; ?>
                         </div>
                         <?php endif; ?>
 
@@ -1603,6 +1656,11 @@ $all_prefectures = get_terms([
         
         // Keyboard shortcuts
         document.addEventListener('keydown', handleKeyboardShortcuts);
+        
+        // More filters toggle
+        document.querySelectorAll('.sm-filter-more-btn').forEach(btn => {
+            btn.addEventListener('click', handleMoreFiltersToggle);
+        });
     }
     
     /**
@@ -2084,6 +2142,38 @@ $all_prefectures = get_terms([
         
         const newURL = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
         window.history.replaceState({}, '', newURL);
+    }
+    
+    /**
+     * Handle more filters toggle
+     */
+    function handleMoreFiltersToggle(e) {
+        const btn = e.currentTarget;
+        const target = btn.dataset.target;
+        const filterGroup = btn.closest('.sm-filter-group');
+        const moreItems = filterGroup.querySelectorAll('.sm-filter-more-item');
+        const showMoreText = btn.querySelector('.show-more-text');
+        const showLessText = btn.querySelector('.show-less-text');
+        const showMoreIcon = btn.querySelector('.show-more-icon');
+        const showLessIcon = btn.querySelector('.show-less-icon');
+        
+        const isExpanded = !showMoreText.classList.contains('hidden');
+        
+        if (isExpanded) {
+            // 展開中 -> 折りたたむ
+            moreItems.forEach(item => item.classList.add('hidden'));
+            showMoreText.classList.remove('hidden');
+            showLessText.classList.add('hidden');
+            showMoreIcon.classList.remove('hidden');
+            showLessIcon.classList.add('hidden');
+        } else {
+            // 折りたたみ中 -> 展開
+            moreItems.forEach(item => item.classList.remove('hidden'));
+            showMoreText.classList.add('hidden');
+            showLessText.classList.remove('hidden');
+            showMoreIcon.classList.add('hidden');
+            showLessIcon.classList.remove('hidden');
+        }
     }
     
     /**
