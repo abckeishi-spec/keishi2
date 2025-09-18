@@ -1,8 +1,0 @@
-Server running on port 8000
-18/Sep/2025 05:57:56 - "GET /archive-grant.php HTTP/1.1" 200 -
-18/Sep/2025 05:58:30 - "GET /test-show-more.html HTTP/1.1" 200 -
-18/Sep/2025 05:58:30 - code 404, message File not found
-18/Sep/2025 05:58:30 - "GET /favicon.ico HTTP/1.1" 404 -
-18/Sep/2025 05:59:12 - "GET /test-show-more-auto.html HTTP/1.1" 200 -
-18/Sep/2025 05:59:12 - code 404, message File not found
-18/Sep/2025 05:59:12 - "GET /favicon.ico HTTP/1.1" 404 -
